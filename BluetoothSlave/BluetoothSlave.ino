@@ -27,7 +27,7 @@ void optimizeBluetooth() {
 void setup() {
     M5.begin(true, false, true); // シリアル有効、I2C無効、表示有効
     // setCpuFrequencyMax();
-    
+    Serial2.begin(115200, SERIAL_8O1, 26, 32);
     // Bluetooth初期化と最適化
     optimizeBluetooth();
     SerialBT.begin(bluetooth_name);
@@ -54,15 +54,15 @@ void fastRespond(uint8_t* data, int length) {
 }
 
 void loop() {
-    bool connected = SerialBT.connected();
-    if (connected != connected_last) {
-        if (connected) {
-            Serial.printf("connected : \r\n");
-        } else {
-            Serial.printf("disconnected : \r\n");
-        }
-    }
-    connected_last = connected;
+    // bool connected = SerialBT.connected();
+    // if (connected != connected_last) {
+    //     if (connected) {
+    //         Serial.printf("connected : \r\n");
+    //     } else {
+    //         Serial.printf("disconnected : \r\n");
+    //     }
+    // }
+    // connected_last = connected;
     
     // 利用可能なデータがある場合
     if (SerialBT.available() > 0) {
