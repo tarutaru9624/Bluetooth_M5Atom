@@ -16,6 +16,8 @@
         "string_view": "cpp",
         "unordered_map": "cpp",
         "unordered_set": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "condition_variable": "cpp",
+        "future": "cpp"
     }
 }

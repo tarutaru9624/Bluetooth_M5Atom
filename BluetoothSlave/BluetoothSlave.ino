@@ -29,13 +29,14 @@ void loop() {
     {
         if (connected == true)
         {
-            Serial.printf("connected : ¥r¥n");
+            Serial.printf("connected : \r\n");
         }
         else
         {
-            Serial.printf("disconnected : ¥r¥n");
+            Serial.printf("disconnected : \r\n");
         }
     }
+    connected_last = connected;
     
     if (SerialBT.available() > 0)
     {
@@ -44,12 +45,14 @@ void loop() {
         {
             send_start_time = millis();
         }
+        SerialBT.write(receive_data);
+
         if (receive_data == 0xE0)
         {
-            Serial.printf("comm time : %u¥r¥n", (millis() - send_start_time));
+            Serial.printf("comm time : %u\r\n", (millis() - send_start_time));
         }
 
-        Serial.printf("receive data : %u¥r¥n", receive_data);
+        Serial.printf("receive data : %u\r\n", receive_data);
         
         
     }
