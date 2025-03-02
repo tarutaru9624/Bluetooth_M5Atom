@@ -5,6 +5,8 @@ BluetoothSerial SerialBT;
 String bluetooth_name = "M5Stack_slave";
 uint32_t send_start_time = 0;
 bool connected_last = false;     //!< 前回接続フラグ
+uint8_t receive_buffer[50] = {0};   //!< 受信バッファ
+uint8_t receive_data_size = 0;      //!< 受信データサイズ
 
 void setup() {
 
@@ -41,20 +43,20 @@ void loop() {
     if (SerialBT.available() > 0)
     {
         receive_data = SerialBT.read();
+        receive_buffer[receive_data_size] = receive_data;
+        receive_data_size++;
+
         if (receive_data == 0xC0)
         {
             send_start_time = millis();
         }
-        SerialBT.write(receive_data);
-
+        
         if (receive_data == 0xE0)
         {
+            SerialBT.write(receive_buffer, receive_data_size);
+            receive_data_size = 0;
             Serial.printf("comm time : %u\r\n", (millis() - send_start_time));
         }
-
-        Serial.printf("receive data : %u\r\n", receive_data);
-        
-        
     }
     
 }
