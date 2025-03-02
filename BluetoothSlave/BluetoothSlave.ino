@@ -52,7 +52,7 @@ void loop() {
             Serial.printf("comm time : %u\r\n", (millis() - send_start_time));
         }
 
-        Serial.printf("receive data : %u\r\n", receive_data);
+        // Serial.printf("receive data : %u\r\n", receive_data);
         
         
     }
