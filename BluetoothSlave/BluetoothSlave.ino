@@ -26,7 +26,7 @@ void optimizeBluetooth() {
 
 void setup() {
     M5.begin(true, false, true); // シリアル有効、I2C無効、表示有効
-    setCpuFrequencyMax();
+    // setCpuFrequencyMax();
     
     // Bluetooth初期化と最適化
     optimizeBluetooth();
