@@ -21,7 +21,7 @@ void optimizeBluetooth() {
     esp_bt_controller_mem_release(ESP_BT_MODE_BLE);
     
     // Bluetoothコントローラーの設定
-    esp_bt_dev_set_device_name(bluetooth_name.c_str());
+    // esp_bt_dev_set_device_name(bluetooth_name.c_str());
 }
 
 void setup() {
@@ -29,7 +29,7 @@ void setup() {
     // setCpuFrequencyMax();
     Serial2.begin(115200, SERIAL_8O1, 26, 32);
     // Bluetooth初期化と最適化
-    optimizeBluetooth();
+    //optimizeBluetooth();
     SerialBT.begin(bluetooth_name);
     
     uint8_t macBT[6];
@@ -40,17 +40,31 @@ void setup() {
 // 高速応答用の関数
 void fastRespond(uint8_t* data, int length) {
     // 開始バイトを検出
-    if (length > 0 && data[0] == 0xC0) {
-        send_start_time = millis();
+    // if (length > 0 && data[0] == 0xC0) {
+    //     send_start_time = millis();
+    // }
+    
+    // // 即座に送り返す
+    // SerialBT.write(data, length);
+    
+    // // 終了バイトを検出
+    // if (length > 0 && data[length-1] == 0xE0) {
+    //     Serial.printf("comm time : %u\r\n", (millis() - send_start_time));
+    // }
+    for (size_t i = 0; i < length; i++)
+    {
+        if (data[i] == 0xC0) {
+            send_start_time = millis();
+        }
+        // 終了バイトを検出
+        if (data[i] == 0xE0) {
+            // 即座に送り返す
+            SerialBT.write(data, length);
+            Serial.printf("comm time : %u\r\n", (millis() - send_start_time));
+        }
     }
     
-    // 即座に送り返す
-    SerialBT.write(data, length);
-    
-    // 終了バイトを検出
-    if (length > 0 && data[length-1] == 0xE0) {
-        Serial.printf("comm time : %u\r\n", (millis() - send_start_time));
-    }
+
 }
 
 void loop() {
